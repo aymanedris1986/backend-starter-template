@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public abstract class CrudService<O, I, D> extends BaseService {
+public abstract class CrudService<O, I, D> extends AppService {
 
 
     public List<D> getAll() {

@@ -1,6 +1,6 @@
 package com.ed.core.controller.base;
 
-import com.ed.core.dto.base.BaseApiResponse;
+import com.ed.core.dto.base.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1/api")
-public abstract class BaseController {
+public abstract class AppController {
 
     public static final String SUCCESS = "success";
 
-    public <T> ResponseEntity<BaseApiResponse<T>> generateSuccessResponse(T response){
-        return ResponseEntity.ok(new BaseApiResponse<>(HttpStatus.OK, SUCCESS,response));
+    public <T> ResponseEntity<ApiResponse<T>> generateSuccessResponse(T response){
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, SUCCESS,response));
     }
 }

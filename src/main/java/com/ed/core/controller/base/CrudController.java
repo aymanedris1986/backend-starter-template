@@ -1,6 +1,6 @@
 package com.ed.core.controller.base;
 
-import com.ed.core.dto.base.BaseApiResponse;
+import com.ed.core.dto.base.ApiResponse;
 import com.ed.core.service.base.CrudService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -12,10 +12,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-public abstract class BaseCrudController<O,I,D> extends BaseController{
+public abstract class CrudController<O,I,D> extends AppController {
     protected abstract CrudService<O,I,D> getCrudService();
 
-    public ResponseEntity<BaseApiResponse<List<D>>> getAll(
+    public ResponseEntity<ApiResponse<List<D>>> getAll(
             int page,
             int size
     ) {
@@ -23,19 +23,19 @@ public abstract class BaseCrudController<O,I,D> extends BaseController{
         return generateSuccessResponse(getCrudService().getAll(pageable));
     }
 
-    public ResponseEntity<BaseApiResponse<Long>> getAllCount() {
+    public ResponseEntity<ApiResponse<Long>> getAllCount() {
         return generateSuccessResponse(getCrudService().getAllCount());
     }
 
-    public ResponseEntity<BaseApiResponse<D>> findById(I id) {
+    public ResponseEntity<ApiResponse<D>> findById(I id) {
         return generateSuccessResponse(getCrudService().getById(id));
     }
 
-    public ResponseEntity<BaseApiResponse<D>> update(D dto) {
+    public ResponseEntity<ApiResponse<D>> update(D dto) {
         return generateSuccessResponse(getCrudService().update(dto));
     }
 
-    public ResponseEntity<BaseApiResponse<D>> insert(D dto) {
+    public ResponseEntity<ApiResponse<D>> insert(D dto) {
         return generateSuccessResponse(getCrudService().insert(dto));
     }
 

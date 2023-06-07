@@ -1,6 +1,6 @@
 package com.ed.core.exception;
 
-import com.ed.core.dto.base.BaseApiResponse;
+import com.ed.core.dto.base.ApiResponse;
 import com.ed.core.dto.exception.ApiErrorDTO;
 import com.ed.core.dto.exception.ValidationErrorsDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 @Slf4j
 public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler({ValidationException.class})
-    public ResponseEntity<BaseApiResponse<ValidationErrorsDTO>> handleOtherExceptions(ValidationException e , HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<ValidationErrorsDTO>> handleOtherExceptions(ValidationException e , HttpServletRequest request) {
         log.info(e.toString());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.VALIDATION_ERROR.toString(),e.getValidationErrorsDTO()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.VALIDATION_ERROR.toString(),e.getValidationErrorsDTO()));
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler({ApiError.class})
-    public ResponseEntity<BaseApiResponse<ApiErrorDTO>> handleOtherExceptions(ApiError e , HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<ApiErrorDTO>> handleOtherExceptions(ApiError e , HttpServletRequest request) {
         log.info(e.toString());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.API_ERROR.toString(), ApiErrorDTO.builder().errorCode(e.getErrorCode()).errorMessage(e.getErrorMessage()).build()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.API_ERROR.toString(), ApiErrorDTO.builder().errorCode(e.getErrorCode()).errorMessage(e.getErrorMessage()).build()));
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler({Exception.class,RuntimeException.class})
-    public ResponseEntity<BaseApiResponse<String>> handleOtherExceptions(Exception e , HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<String>> handleOtherExceptions(Exception e , HttpServletRequest request) {
         log.info(e.toString());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.UNEXPECTED_ERROR.toString(), e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.UNEXPECTED_ERROR.toString(), e.getMessage()));
     }
 }

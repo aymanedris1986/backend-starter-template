@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public abstract class BaseModelDTO {
+public abstract class ModelDTO {
     private final List<String> warnings = new ArrayList<>();
 
     public void addWarning(String warning){

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @Data
-public abstract class BaseService {
+public abstract class AppService {
     @Autowired
     private EntityManager entityManager;
     @Autowired
