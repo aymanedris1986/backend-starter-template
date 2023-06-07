@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.ed.core.utils.SecurityUtils.getCurrentUserName;
+
 @RestController
 public class IdentityController extends AppController {
     public static final String CONTROLLER_PATH = "/id";
@@ -18,8 +20,7 @@ public class IdentityController extends AppController {
 
     @GetMapping(CONTROLLER_PATH+"/me")
     public ClientUserInfoDTO getUserInfo(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = getCurrentUserName();
         SecUser userByName = secUsersService.getUserByName(username);
         ClientUserInfoDTO clientUserInfoDTO = new ClientUserInfoDTO();
         clientUserInfoDTO.setId(userByName.getUserCode());

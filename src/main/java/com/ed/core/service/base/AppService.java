@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+import static com.ed.core.utils.SecurityUtils.getCurrentUserName;
+
 @Service
 @Slf4j
 @Data
@@ -38,6 +41,10 @@ public abstract class AppService {
         return objects.stream()
                 .map(obj -> getModelMapper().map(obj, LOVDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public String getUserName(){
+        return getCurrentUserName();
     }
 
 

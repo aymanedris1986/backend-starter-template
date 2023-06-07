@@ -1,5 +1,6 @@
 package com.ed.core.entity;
 
+import com.ed.core.entity.base.AuditEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "REGIONS")
-public class Region {
+public class Region implements AuditEntity {
     @Id
     @Column(name = "REGION_ID", nullable = false)
     private Long id;
