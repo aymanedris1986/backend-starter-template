@@ -4,20 +4,19 @@ import com.ed.core.entity.base.AuditEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "trade_splits")
 public class TradeSplit  implements AuditEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trade_split_id", nullable = false)
     private Long id;
 

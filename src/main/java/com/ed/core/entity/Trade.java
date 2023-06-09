@@ -19,6 +19,7 @@ import java.util.Set;
 @Table(name = "trades")
 public class Trade implements AuditEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trade_id", nullable = false)
     private Long id;
 
@@ -43,8 +44,7 @@ public class Trade implements AuditEntity {
     @Column(name = "notes", length = 2000)
     private String notes;
 
-    @NotNull
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDate createdAt;
 
     @Size(max = 100)
@@ -58,7 +58,7 @@ public class Trade implements AuditEntity {
     @Column(name = "updated_by", length = 100)
     private String updatedBy;
 
-    @OneToOne(mappedBy = "trade")
+    @OneToOne(mappedBy = "trade",cascade=CascadeType.ALL)
     private TradeSplit tradeSplit;
 
 }

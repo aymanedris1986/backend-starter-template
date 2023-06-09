@@ -4,15 +4,18 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.Value;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
  * DTO for {@link com.ed.core.entity.Trade}
  */
 @Data
+@ToString
 @NoArgsConstructor
 public class TradeDto implements Serializable {
     Long id;
@@ -27,12 +30,22 @@ public class TradeDto implements Serializable {
     LocalDate exitDate;
     @Size(max = 2000)
     String notes;
-    @NotNull
     LocalDate createdAt;
     @Size(max = 100)
     String createdBy;
     LocalDate updatedAt;
     @Size(max = 100)
     String updatedBy;
-    TradeSplitDto tradeSplit;
+    private Long tradeSplitId;
+    private String tradeSplitSplitDirection;
+    private LocalDate tradeSplitSplitDate;
+    private BigDecimal tradeSplitSplitPrice;
+    private BigDecimal tradeSplitSplitSize;
+    private BigDecimal tradeSplitStopLoss;
+    private BigDecimal tradeSplitTakeProfit;
+    private BigDecimal tradeSplitCommission;
+    private LocalDate tradeSplitCreatedAt;
+    private String tradeSplitCreatedBy;
+    private LocalDate tradeSplitUpdatedAt;
+    private String tradeSplitUpdatedBy;
 }
