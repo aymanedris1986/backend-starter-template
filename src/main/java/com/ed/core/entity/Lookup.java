@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class Lookup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lookup_seq", nullable = false)
-    private Long id;
+    private Long lookupSeq;
 
     @Size(max = 200)
     @NotNull
@@ -26,11 +27,11 @@ public class Lookup {
     @Size(max = 200)
     @NotNull
     @Column(name = "lookup_value", nullable = false, length = 200)
-    private String lookupValue;
+    private String id;
 
     @Size(max = 500)
     @Column(name = "description_en", length = 500)
-    private String descriptionEn;
+    private String name;
 
     @Size(max = 500)
     @Column(name = "description_ar", length = 500)
@@ -38,14 +39,14 @@ public class Lookup {
 
     @NotNull
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private LocalDate createdAt;
 
     @Size(max = 100)
     @Column(name = "created_by", length = 100)
     private String createdBy;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private LocalDate updatedAt;
 
     @Size(max = 100)
     @Column(name = "updated_by", length = 100)

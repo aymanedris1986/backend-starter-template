@@ -21,9 +21,7 @@ public class LOVController extends AppController {
 
     @GetMapping(CONTROLLER_PATH)
     public ResponseEntity<List<LOVDTO>> getAll(@RequestParam("type") String lovType) {
-//        if("COUNTRY".equals(lovType)){
-//            return ResponseEntity.ok(lovService.getAllCountries());
-//        }
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(lovService.getLovByType(lovType));
+        //return ResponseEntity.ok(null);
     }
 }
