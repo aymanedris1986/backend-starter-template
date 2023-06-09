@@ -89,13 +89,12 @@ public class SecUser {
     @Column(name = "DATE_OF_BIRTH")
     private LocalDate dateOfBirth;
 
-    @NotNull
-    @Column(name = "CREATED_AT", nullable = false)
+
+    @Column(name = "CREATED_AT")
     private LocalDate createdAt;
 
     @Size(max = 100)
-    @NotNull
-    @Column(name = "CREATED_BY", nullable = false, length = 100)
+    @Column(name = "CREATED_BY", length = 100)
     private String createdBy;
 
     @Column(name = "UPDATED_AT")

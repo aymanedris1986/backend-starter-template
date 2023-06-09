@@ -1,10 +1,7 @@
 package com.ed.core.entity;
 
 import com.ed.core.entity.base.AuditEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -20,6 +17,8 @@ import java.time.LocalDate;
 @Table(name = "REGIONS")
 public class Region implements AuditEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SYSTEM_SEQ")
+    @SequenceGenerator(name = "SYSTEM_SEQ", sequenceName = "SYSTEM_SEQ", allocationSize = 1)
     @Column(name = "REGION_ID", nullable = false)
     private Long id;
 
@@ -27,8 +26,7 @@ public class Region implements AuditEntity {
     @Column(name = "REGION_NAME", length = 25)
     private String regionName;
 
-    @NotNull
-    @Column(name = "CREATED_AT", nullable = false)
+    @Column(name = "CREATED_AT")
     private LocalDate createdAt;
 
     @Size(max = 100)
