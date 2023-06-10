@@ -62,6 +62,7 @@ public class TradeService extends AuditCrudService<Trade,Long, TradeDto> {
         tradeSplit.setSplitPrice(dto.getTradeSplitSplitPrice());
         tradeSplit.setSplitSize(dto.getTradeSplitSplitSize());
         tradeSplit.setStopLoss(dto.getTradeSplitStopLoss());
+        tradeSplit.setTakeProfit(dto.getTradeSplitTakeProfit());
     }
 
     @Override
