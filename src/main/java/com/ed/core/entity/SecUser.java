@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -91,14 +92,14 @@ public class SecUser {
 
 
     @Column(name = "CREATED_AT")
-    private LocalDate createdAt;
+    private Instant createdAt;
 
     @Size(max = 100)
     @Column(name = "CREATED_BY", length = 100)
     private String createdBy;
 
     @Column(name = "UPDATED_AT")
-    private LocalDate updatedAt;
+    private Instant updatedAt;
 
     @Size(max = 100)
     @Column(name = "UPDATED_BY", length = 100)

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.LocalDate;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -39,14 +39,14 @@ public class Lookup {
 
     @NotNull
     @Column(name = "created_at", nullable = false)
-    private LocalDate createdAt;
+    private Instant createdAt;
 
     @Size(max = 100)
     @Column(name = "created_by", length = 100)
     private String createdBy;
 
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private Instant updatedAt;
 
     @Size(max = 100)
     @Column(name = "updated_by", length = 100)

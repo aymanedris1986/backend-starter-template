@@ -3,15 +3,15 @@ package com.ed.core.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
 public class LookupDTO {
     private String id;
     private String name;
-    private LocalDate createdAt;
+    private Instant createdAt;
     private String createdBy;
-    private LocalDate updatedAt;
+    private Instant updatedAt;
     private String updatedBy;
 }

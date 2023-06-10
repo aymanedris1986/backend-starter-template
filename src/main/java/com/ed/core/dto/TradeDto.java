@@ -9,7 +9,7 @@ import lombok.Value;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
 
 /**
  * DTO for {@link com.ed.core.entity.Trade}
@@ -26,26 +26,26 @@ public class TradeDto implements Serializable {
     @Size(max = 10)
     String direction;
     @NotNull
-    LocalDate entryDate;
-    LocalDate exitDate;
+    Instant entryDate;
+    Instant exitDate;
     @Size(max = 2000)
     String notes;
-    LocalDate createdAt;
+    Instant createdAt;
     @Size(max = 100)
     String createdBy;
-    LocalDate updatedAt;
+    Instant updatedAt;
     @Size(max = 100)
     String updatedBy;
     private Long tradeSplitId;
     private String tradeSplitSplitDirection;
-    private LocalDate tradeSplitSplitDate;
+    private Instant tradeSplitSplitDate;
     private BigDecimal tradeSplitSplitPrice;
     private BigDecimal tradeSplitSplitSize;
     private BigDecimal tradeSplitStopLoss;
     private BigDecimal tradeSplitTakeProfit;
     private BigDecimal tradeSplitCommission;
-    private LocalDate tradeSplitCreatedAt;
+    private Instant tradeSplitCreatedAt;
     private String tradeSplitCreatedBy;
-    private LocalDate tradeSplitUpdatedAt;
+    private Instant tradeSplitUpdatedAt;
     private String tradeSplitUpdatedBy;
 }

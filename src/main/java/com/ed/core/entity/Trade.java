@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -35,24 +35,24 @@ public class Trade implements AuditEntity {
 
     @NotNull
     @Column(name = "entry_date", nullable = false)
-    private LocalDate entryDate;
+    private Instant entryDate;
 
     @Column(name = "exit_date")
-    private LocalDate exitDate;
+    private Instant exitDate;
 
     @Size(max = 2000)
     @Column(name = "notes", length = 2000)
     private String notes;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private Instant createdAt;
 
     @Size(max = 100)
     @Column(name = "created_by", length = 100)
     private String createdBy;
 
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private Instant updatedAt;
 
     @Size(max = 100)
     @Column(name = "updated_by", length = 100)
