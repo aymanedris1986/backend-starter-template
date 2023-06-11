@@ -48,4 +48,6 @@ public class TradeDto implements Serializable {
     private String tradeSplitCreatedBy;
     private Instant tradeSplitUpdatedAt;
     private String tradeSplitUpdatedBy;
+    private BigDecimal tradeSplitExitPrice;
+    private Boolean tradeSplitIsClosed = false;
 }

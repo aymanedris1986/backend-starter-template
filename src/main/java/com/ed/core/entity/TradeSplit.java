@@ -33,19 +33,19 @@ public class TradeSplit  implements AuditEntity {
     @Column(name = "split_date")
     private Instant splitDate;
 
-    @Column(name = "split_price", precision = 10, scale = 2)
+    @Column(name = "split_price")
     private BigDecimal splitPrice;
 
-    @Column(name = "split_size", precision = 10, scale = 2)
+    @Column(name = "split_size")
     private BigDecimal splitSize;
 
-    @Column(name = "stop_loss", precision = 10, scale = 2)
+    @Column(name = "stop_loss")
     private BigDecimal stopLoss;
 
-    @Column(name = "take_profit", precision = 10, scale = 2)
+    @Column(name = "take_profit")
     private BigDecimal takeProfit;
 
-    @Column(name = "commission", precision = 10, scale = 2)
+    @Column(name = "commission")
     private BigDecimal commission;
 
     @NotNull
@@ -62,5 +62,12 @@ public class TradeSplit  implements AuditEntity {
     @Size(max = 100)
     @Column(name = "updated_by", length = 100)
     private String updatedBy;
+
+    @Column(name = "exit_price")
+    private BigDecimal exitPrice;
+
+    @NotNull
+    @Column(name = "is_closed", nullable = false)
+    private Boolean isClosed = false;
 
 }
