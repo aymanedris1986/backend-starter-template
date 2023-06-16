@@ -27,7 +27,7 @@ public class TradeController extends CrudController<Trade, Long, TradeDto> {
     @GetMapping(CONTROLLER_PATH)
     public ResponseEntity<ApiResponse<List<TradeDto>>> getAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "100") int size) {
         return super.getAll(page, size);
     }
 

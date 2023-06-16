@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
+
 @Service
 @AllArgsConstructor
 public class TradeService extends AuditCrudService<Trade,Long, TradeDto> {
@@ -69,6 +71,8 @@ public class TradeService extends AuditCrudService<Trade,Long, TradeDto> {
 
     @Override
     protected Trade preUpdate(Trade model, TradeDto dto) {
+        System.out.println(dto.getEntryDate().atZone(ZoneId.of("UTC")));
+        System.out.println(dto.getEntryDate().toString());
         TradeSplit reference = getReference(dto.getTradeSplitId(), TradeSplit.class);
         model.setTradeSplit(reference);
         updateAudit(reference);

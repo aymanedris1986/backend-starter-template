@@ -4,10 +4,7 @@ import com.ed.core.entity.base.AuditEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -16,6 +13,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
+@ToString
 @Table(name = "trades")
 public class Trade implements AuditEntity {
     @Id
