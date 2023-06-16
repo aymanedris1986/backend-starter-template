@@ -43,7 +43,11 @@ public abstract class CrudService<O, I, D> extends AppService {
 
     public D getById(I id) {
         Optional<O> byId = getRepository().findById(id);
-        return getModelMapper().map(byId.get(), getDtoClassType());
+        return mapFromModelToDto(byId.get());
+    }
+
+    protected D mapFromModelToDto(O o) {
+        return getModelMapper().map(o,getDtoClassType());
     }
 
     public void validateModel(O model) {
@@ -79,13 +83,17 @@ public abstract class CrudService<O, I, D> extends AppService {
         }
         O model = getNewModelObject();
         mapLovs(dto, model);
-        BeanUtils.copyProperties(dto, model);
+        mapFromDtoToModel(dto, model);
         validateModel(model);
         model = preInsert(model,dto);
         model = getRepository().save(model);
-        D afterDto = (D) getModelMapper().map(model, getDtoClassType());
+        D afterDto = (D) mapFromModelToDto(model);
         afterDto = afterInsert(model,afterDto);
         return afterDto;
+    }
+
+    protected void mapFromDtoToModel(D dto, O model) {
+        BeanUtils.copyProperties(dto, model);
     }
 
     protected O preInsert(O model,D dto) {
@@ -99,11 +107,11 @@ public abstract class CrudService<O, I, D> extends AppService {
     public D update(D dto) {
         O model = getRepository().findById(getDtoId(dto)).get();
         mapLovs(dto, model);
-        BeanUtils.copyProperties(dto, model);
+        mapFromDtoToModel(dto, model);
         validateModel(model);
         model = preUpdate(model,dto);
         model = getRepository().save(model);
-        D afterDto = (D) getModelMapper().map(model, getDtoClassType());
+        D afterDto = (D) mapFromModelToDto(model);
         afterDto = afterInsert(model,afterDto);
         return afterDto;
     }
@@ -118,7 +126,7 @@ public abstract class CrudService<O, I, D> extends AppService {
 
     protected List<D> mapList(List<O> modelObject) {
         return modelObject.stream()
-                .map(obj -> getModelMapper().map(obj, getDtoClassType()))
+                .map(obj -> mapFromModelToDto(obj))
                 .collect(Collectors.toList());
     }
 

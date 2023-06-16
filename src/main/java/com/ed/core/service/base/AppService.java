@@ -47,5 +47,17 @@ public abstract class AppService {
         return getCurrentUserName();
     }
 
+    public boolean isValueUpdated(Object src, Object dist) {
+        // Check if both source and destination are null
+        if (src == null && dist == null) {
+            return false;
+        }
+        // Check if either source or destination is null
+        if (src == null || dist == null) {
+            return true;
+        }
+        // Compare the non-null source and destination values
+        return !src.equals(dist);
+    }
 
 }

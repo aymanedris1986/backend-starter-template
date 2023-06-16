@@ -1,5 +1,6 @@
 package com.ed.core.entity;
 
+import com.ed.core.entity.base.AuditEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "lookups")
-public class Lookup {
+public class Lookup implements AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lookup_seq", nullable = false)
