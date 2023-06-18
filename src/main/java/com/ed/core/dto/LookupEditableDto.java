@@ -28,7 +28,6 @@ public class LookupEditableDto implements Serializable {
     String name;
     @Size(max = 500)
     String descriptionAr;
-    @NotNull
     Instant createdAt;
     @Size(max = 100)
     String createdBy;

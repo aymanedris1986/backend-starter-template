@@ -17,7 +17,7 @@ import java.time.Instant;
 public class Lookup implements AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "lookup_seq", nullable = false)
+    @Column(name = "lookup_seq")
     private Long lookupSeq;
 
     @Size(max = 200)
@@ -38,8 +38,7 @@ public class Lookup implements AuditEntity {
     @Column(name = "description_ar", length = 500)
     private String descriptionAr;
 
-    @NotNull
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private Instant createdAt;
 
     @Size(max = 100)
