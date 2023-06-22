@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 
 public interface SecUserRepository extends JpaRepository<SecUser, String> {
-    @Query("select s from SecUser s where s.userName = ?1")
+    @Query("select s from SecUser s where upper(s.userName) = upper(?1)")
     SecUser findByUserName(@NonNull String userName);
 }
