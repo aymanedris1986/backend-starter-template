@@ -1,9 +1,6 @@
 package com.ed.core.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -13,6 +10,10 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -104,5 +105,11 @@ public class SecUser {
     @Size(max = 100)
     @Column(name = "UPDATED_BY", length = 100)
     private String updatedBy;
+
+    @OneToMany(mappedBy = "userCode")
+    private List<SecUserRole> secUserRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userCode")
+    private List<SecUserFunction> secUserFunctions = new ArrayList<>();
 
 }
