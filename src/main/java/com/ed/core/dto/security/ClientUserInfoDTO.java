@@ -14,6 +14,7 @@ public class ClientUserInfoDTO {
     private String name;
     private String email;
     private String avatar;
+    private String mainRole;
     private List<String> roles = new ArrayList<>();
     private List<String> permissions = new ArrayList<>();
 }

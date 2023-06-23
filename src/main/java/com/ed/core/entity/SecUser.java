@@ -112,4 +112,9 @@ public class SecUser {
     @OneToMany(mappedBy = "userCode")
     private List<SecUserFunction> secUserFunctions = new ArrayList<>();
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_main_role", nullable = false)
+    private SecRole userMainRole;
+
 }

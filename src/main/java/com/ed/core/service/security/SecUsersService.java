@@ -29,13 +29,14 @@ public class SecUsersService extends AppService {
         clientUserInfoDTO.setId(userByName.getUserCode());
         clientUserInfoDTO.setName(username);
         clientUserInfoDTO.setEmail(userByName.getEmail());
+        clientUserInfoDTO.setMainRole(userByName.getUserMainRole().getRoleCode());
 
         List<String> listOfFunctions =
                 userByName.getSecUserFunctions().stream().map(secUserFunction -> secUserFunction.getFunctionCode().getFunctionCode()).toList();
         clientUserInfoDTO.getPermissions().addAll(listOfFunctions);
 
         List<String> listOfRoles = userByName.getSecUserRoles().stream().map(secUserRole -> secUserRole.getRoleCode().getRoleCode()).toList();
-        clientUserInfoDTO.getPermissions().addAll(listOfRoles);
+        clientUserInfoDTO.getRoles().addAll(listOfRoles);
 
         return clientUserInfoDTO;
     }
