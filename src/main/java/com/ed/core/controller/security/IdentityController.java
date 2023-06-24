@@ -7,17 +7,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.ed.core.utils.SecurityUtils.getCurrentUserName;
 
 @RestController
 @AllArgsConstructor
 public class IdentityController extends AppController {
     public static final String CONTROLLER_PATH = "/id";
-
     private final SecUsersService secUsersService;
 
     @GetMapping(CONTROLLER_PATH + "/me")
     public ClientUserInfoDTO getUserInfo() {
-        return secUsersService.getUserWithRolesAndPermissions(getCurrentUserName(),false);
+        return secUsersService.getUserWithRolesAndPermissions(getUserDetails().getCurrentUserName(),false);
     }
 }

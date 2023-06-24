@@ -1,8 +1,10 @@
 package com.ed.core.service.base;
 
 import com.ed.core.dto.LOVDTO;
+import com.ed.core.service.security.AppUserDetailsService;
 import jakarta.persistence.EntityManager;
 import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-import static com.ed.core.utils.SecurityUtils.getCurrentUserName;
-
 @Service
 @Slf4j
 @Data
@@ -22,6 +22,10 @@ public abstract class AppService {
     private EntityManager entityManager;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    @Getter
+    private AppUserDetailsService userDetails;
+
 
     public <T> T getReference(String id, Class<T> c) {
         if(id == null || "".equals(id)){
@@ -44,7 +48,7 @@ public abstract class AppService {
     }
 
     public String getUserName(){
-        return getCurrentUserName();
+        return userDetails.getCurrentUserName();
     }
 
     public boolean isValueUpdated(Object src, Object dist) {

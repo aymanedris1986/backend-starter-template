@@ -37,7 +37,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain updateSecurityFilterChain(HttpSecurity http) throws Exception {
-        //disable csrf and session management
         http.csrf()
                 .disable().cors() // Enable CORS
                 .and().sessionManagement()

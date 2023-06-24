@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class SecUsersService extends AppService {
+public class SecUsersService  {
 
     private final SecUserRepository secUserRepository;
 

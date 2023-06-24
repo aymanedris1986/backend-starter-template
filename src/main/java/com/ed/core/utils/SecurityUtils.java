@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 public class SecurityUtils {
 
@@ -24,14 +26,5 @@ public class SecurityUtils {
         out.flush();
         out.close();
     }
-
-    public static Authentication getUserAuthentication(){
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
-
-    public static String getCurrentUserName(){
-        return getUserAuthentication().getName();
-    }
-
 
 }

@@ -4,11 +4,14 @@ import com.ed.core.dto.security.AppUser;
 import com.ed.core.dto.security.ClientUserInfoDTO;
 import com.ed.core.repository.SecUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class AppUserDetailsService implements UserDetailsService {
@@ -28,5 +31,38 @@ public class AppUserDetailsService implements UserDetailsService {
         user.setRoles(userInfoDTO.getRoles());
         user.setPermissions(userInfoDTO.getPermissions());
         return user;
+    }
+
+
+    public static Authentication getUserAuthentication(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public String getCurrentUserName(){
+        return getUserAuthentication().getName();
+    }
+
+    public AppUser getCurrentUser(){
+        return (AppUser) getUserAuthentication().getPrincipal();
+    }
+
+    public String getCurrentUserEmail(){
+        return getCurrentUser().getEmail();
+    }
+
+    public String getCurrentUserId(){
+        return getCurrentUser().getId();
+    }
+
+    public String getCurrentUserMainRole(){
+        return getCurrentUser().getMainRole();
+    }
+
+    public List<String> getCurrentUserRoles(){
+        return getCurrentUser().getRoles();
+    }
+
+    public List<String> getCurrentUserPermissions(){
+        return getCurrentUser().getPermissions();
     }
 }
