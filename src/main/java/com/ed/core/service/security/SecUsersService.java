@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.ed.core.utils.SecurityUtils.getCurrentUserName;
-
 @Service
 @AllArgsConstructor
 public class SecUsersService extends AppService {
@@ -21,16 +19,15 @@ public class SecUsersService extends AppService {
         return secUserRepository.findByUserName(username);
     }
 
-    public ClientUserInfoDTO getUserWithRolesAnPermissions(String username){
+    public ClientUserInfoDTO getUserWithRolesAndPermissions(String username, boolean includePassword){
         SecUser userByName = getUserByName(username);
-
-
         ClientUserInfoDTO clientUserInfoDTO = new ClientUserInfoDTO();
         clientUserInfoDTO.setId(userByName.getUserCode());
+        clientUserInfoDTO.setPassword(includePassword ? userByName.getPassword() : null);
         clientUserInfoDTO.setName(username);
         clientUserInfoDTO.setEmail(userByName.getEmail());
+        clientUserInfoDTO.setName(userByName.getFirstNameEn());
         clientUserInfoDTO.setMainRole(userByName.getUserMainRole().getRoleCode());
-
         List<String> listOfFunctions =
                 userByName.getSecUserFunctions().stream().map(secUserFunction -> secUserFunction.getFunctionCode().getFunctionCode()).toList();
         clientUserInfoDTO.getPermissions().addAll(listOfFunctions);

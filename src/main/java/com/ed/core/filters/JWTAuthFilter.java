@@ -1,6 +1,7 @@
 package com.ed.core.filters;
 
 import com.ed.core.dto.security.AppUser;
+import com.ed.core.dto.security.ClientUserInfoDTO;
 import com.ed.core.utils.SecurityUtils;
 import com.ed.core.utils.Utils;
 import com.ed.core.service.security.JWTService;
@@ -19,13 +20,11 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
-    public static final String USER_DUMMY_PASSWORD = "P@ssw0rd";
+
     @Autowired
     private JWTService jwtService;
     @Autowired
@@ -80,25 +79,19 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     }
 
     private void authenticate(HttpServletRequest request, String token) {
-        AppUser userDetails = generateUserDetailsFromToken(token);
+        AppUser userDetails = jwtService.tokenToUser(token);
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,
                 userDetails.getAuthorities()
         );
-
         authToken.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request)
         );
         SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 
-    private AppUser generateUserDetailsFromToken(String token) {
-        List<String> claims;
-        claims = jwtService.extractClaim(token, claim -> (List<String>) claim.get("roles"));
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
-        claims.forEach(s -> simpleGrantedAuthorities.add(new SimpleGrantedAuthority(s)));
-        AppUser userDetails = new AppUser(jwtService.extractUsername(token), USER_DUMMY_PASSWORD, simpleGrantedAuthorities);
-        return userDetails;
-    }
+
+
+
 }

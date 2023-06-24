@@ -1,4 +1,4 @@
-package com.ed.core.service;
+package com.ed.core.service.security;
 
 import com.ed.core.repository.SecUserRoleRepository;
 import com.ed.core.service.base.AppService;

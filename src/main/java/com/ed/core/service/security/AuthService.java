@@ -1,5 +1,7 @@
 package com.ed.core.service.security;
 
+import com.ed.core.dto.security.AppUser;
+import com.ed.core.dto.security.ClientUserInfoDTO;
 import com.ed.core.dto.security.UserCredentials;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,29 +12,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private JWTService jwtService;
+    private final JWTService jwtService;
+
 
     public String login(UserCredentials userCredentials) {
-        Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword())
-        );
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userCredentials.getUsername());
-        String token = jwtService.generateToken(
-                jwtService.authoritiesToClaims(userDetails),
-                userDetails
-        );
-        return token;
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword()));
+        AppUser userDetails = (AppUser) userDetailsService.loadUserByUsername(userCredentials.getUsername());
+        return jwtService.userToToken(userDetails);
     }
+
+
 
 
 }

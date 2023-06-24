@@ -1,25 +1,34 @@
 package com.ed.core.service.security;
 
+import com.ed.core.dto.security.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class JWTService {
-    private static final String SECRET_KEY = "77397A24432646294A404E635266556A586E3272357538782F4125442A472D4B";
+
+
+    @Value("${security.jwt.key}")
+    private String secretKey;
+    public static final String USER_DUMMY_PASSWORD = "P@ssw0rd";
     public static final int TIMEOUT_PERIOD = 1000 * 60 * 60 * 24 * 7 ;
+    public static final String MAIN_ROLE_CLAIM = "mainRole";
+    public static final String ROLES_CLAIM = "roles";
+    public static final String FUNCTIONS_CLAIM = "functions";
+    public static final String EMAIL_CALIM = "eamil";
+    public static final String USERID_CLAIM = "userId";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -30,12 +39,17 @@ public class JWTService {
         return claimsResolver.apply(claims);
     }
 
-    private String generateToken(UserDetails userDetails) {
+    private String generateToken(AppUser userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername()).setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(new Date(System.currentTimeMillis() + TIMEOUT_PERIOD)).signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
+    public String generateToken(Map<String, Object> extraClaims, AppUser userDetails) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + TIMEOUT_PERIOD))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -56,13 +70,13 @@ public class JWTService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private boolean validateTokenSignature(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             System.err.println("inside validateTokenSignature error");
@@ -120,12 +134,42 @@ public class JWTService {
         return newToken;
     }
 
-    public Map<String,Object> authoritiesToClaims(UserDetails userDetails){
-        Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("roles", userDetails.getAuthorities().stream()
-                .map(authority -> authority.getAuthority())
-                .collect(Collectors.toList()));
+
+    public Map<String, Object> getExtraClaims(AppUser userInfoDTO) {
+        Map<String,Object> extraClaims = new HashMap<>();
+        extraClaims.put(MAIN_ROLE_CLAIM,userInfoDTO.getMainRole());
+        extraClaims.put(ROLES_CLAIM,userInfoDTO.getRoles());
+        extraClaims.put(FUNCTIONS_CLAIM,userInfoDTO.getPermissions());
+        extraClaims.put(EMAIL_CALIM,userInfoDTO.getEmail());
+        extraClaims.put(USERID_CLAIM,userInfoDTO.getId());
         return extraClaims;
     }
+
+    public AppUser tokenToUser(String token) {
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
+        AppUser userDetails = new AppUser(extractUsername(token), USER_DUMMY_PASSWORD, simpleGrantedAuthorities);
+        String id = extractExtraClaim(token, JWTService.USERID_CLAIM, String.class);
+        String email = extractExtraClaim(token, JWTService.EMAIL_CALIM, String.class);
+        String mainRole = extractExtraClaim(token, JWTService.MAIN_ROLE_CLAIM, String.class);
+        List<String> rolesList = extractExtraClaim(token, JWTService.ROLES_CLAIM, List.class);
+        List<String> permissionsList = extractExtraClaim(token, JWTService.FUNCTIONS_CLAIM, List.class);
+        userDetails.setId(id);
+        userDetails.setEmail(email);
+        userDetails.setMainRole(mainRole);
+        userDetails.setRoles(rolesList);
+        userDetails.setPermissions(permissionsList);
+        return userDetails;
+    }
+
+
+    public String userToToken(AppUser userDetails) {
+        Map<String,Object> extraClaims = getExtraClaims(userDetails);
+        return generateToken(
+                extraClaims,
+                userDetails
+        );
+    }
+
+
 }
 
