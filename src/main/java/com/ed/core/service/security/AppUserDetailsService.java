@@ -65,4 +65,22 @@ public class AppUserDetailsService implements UserDetailsService {
     public List<String> getCurrentUserPermissions(){
         return getCurrentUser().getPermissions();
     }
+
+    public boolean isUserHasRole(String role){
+        if (getCurrentUserRoles() != null && getCurrentUserRoles().contains(role)){
+            return true;
+        }
+        if (role.equals(getCurrentUserMainRole())){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isUserHasPermission(String permission){
+        if (getCurrentUserPermissions() != null && getCurrentUserPermissions().contains(permission)){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -26,6 +26,13 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(HttpStatus.BAD_REQUEST,ErrorTypes.API_ERROR.toString(), ApiErrorDTO.builder().errorCode(e.getErrorCode()).errorMessage(e.getErrorMessage()).build()));
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler({AuthorizationException.class})
+    public ResponseEntity<ApiResponse<String>> handleAuthExceptions(AuthorizationException e , HttpServletRequest request) {
+        e.printStackTrace();
+        log.info(e.toString());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED,ErrorTypes.AUTH_ERROR.toString(),e.getMessage()));
+    }
+
     @org.springframework.web.bind.annotation.ExceptionHandler({Exception.class,RuntimeException.class})
     public ResponseEntity<ApiResponse<String>> handleOtherExceptions(Exception e , HttpServletRequest request) {
         e.printStackTrace();
