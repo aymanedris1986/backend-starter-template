@@ -6,5 +6,5 @@ import java.util.Map;
 
 
 public interface SecAuthorizer {
-    public void doAuthorize(ProceedingJoinPoint joinPoint, Map<String,Object> additionalAttributes);
+    public Object doAuthorize(ProceedingJoinPoint joinPoint, Map<String,Object> additionalAttributes) throws Throwable;
 }

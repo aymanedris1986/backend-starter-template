@@ -22,6 +22,5 @@ public class LOVController extends AppController {
     @GetMapping(CONTROLLER_PATH)
     public ResponseEntity<List<LOVDTO>> getAll(@RequestParam("type") String lovType) {
         return ResponseEntity.ok(lovService.getLovByType(lovType));
-        //return ResponseEntity.ok(null);
     }
 }

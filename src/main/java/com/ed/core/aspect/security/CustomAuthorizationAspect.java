@@ -24,20 +24,10 @@ public class CustomAuthorizationAspect {
     public Object applyCustomAuthorization(ProceedingJoinPoint joinPoint) throws Throwable {
         CustomAuthorization authAspect = AspectUtils.getAnnotation(joinPoint,CustomAuthorization.class);
 
-        // Get the authorizer bean name from the annotation
         String authorizerBeanName = authAspect.authorizerBean();
-
-        System.out.println("++++++ "+authorizerBeanName);
-
-        System.out.println(userDetailsService.getCurrentUser());
-
         SecAuthorizer secAuthorizer  = (SecAuthorizer) applicationContext.getBean(authorizerBeanName);
         secAuthorizer.doAuthorize(joinPoint,new HashMap<>());
 
-        // Proceed with the original method execution
-//        if(joinPoint.toString() != null) {
-//            throw new AuthorizationException("not autorized");
-//        }
         return joinPoint.proceed();
     }
 }

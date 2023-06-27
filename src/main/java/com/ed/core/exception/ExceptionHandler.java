@@ -30,7 +30,7 @@ public class ExceptionHandler {
     public ResponseEntity<ApiResponse<String>> handleAuthExceptions(AuthorizationException e , HttpServletRequest request) {
         e.printStackTrace();
         log.info(e.toString());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(HttpStatus.UNAUTHORIZED,ErrorTypes.AUTH_ERROR.toString(),e.getMessage()));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(HttpStatus.FORBIDDEN,ErrorTypes.AUTH_ERROR.toString(),e.getMessage()));
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler({Exception.class,RuntimeException.class})
