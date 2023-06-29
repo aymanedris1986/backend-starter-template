@@ -2,6 +2,7 @@ package com.ed.core.service.security;
 
 import com.ed.core.dto.security.AppUser;
 import com.ed.core.dto.security.ClientUserInfoDTO;
+import com.ed.core.dto.security.TokenDTO;
 import com.ed.core.dto.security.UserCredentials;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,14 @@ public class AuthService {
     private final JWTService jwtService;
 
 
-    public String login(UserCredentials userCredentials) {
+    public TokenDTO login(UserCredentials userCredentials) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword()));
         AppUser userDetails = (AppUser) userDetailsService.loadUserByUsername(userCredentials.getUsername());
         return jwtService.userToToken(userDetails);
+    }
+
+    public TokenDTO refreshToken(String rt){
+        return jwtService.userToToken(jwtService.tokenToUser(rt));
     }
 
 

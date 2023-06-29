@@ -1,6 +1,7 @@
 package com.ed.core.controller.security;
 
 import com.ed.core.controller.base.AppController;
+import com.ed.core.dto.security.RefreshTokenDTO;
 import com.ed.core.dto.security.TokenDTO;
 import com.ed.core.dto.security.UserCredentials;
 import com.ed.core.dto.base.ApiResponse;
@@ -19,8 +20,13 @@ public class SecurityController extends AppController {
 
     @PostMapping(CONTROLLER_PATH+"/login")
     public TokenDTO authenticate(@RequestBody UserCredentials userCredentials){
-        String login = authService.login(userCredentials);
-        return new TokenDTO(login,"bearer");
+        return authService.login(userCredentials);
+    }
+
+    @PostMapping(CONTROLLER_PATH+"/refreshToken")
+    public TokenDTO refreshToken(@RequestBody RefreshTokenDTO userCredentials){
+        System.out.println(userCredentials.getRefreshToken());
+        return authService.refreshToken(userCredentials.getRefreshToken());
     }
 
     @PostMapping(CONTROLLER_PATH+"/logout")

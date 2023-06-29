@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice
@@ -32,6 +33,14 @@ public class ExceptionHandler {
         log.info(e.toString());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(HttpStatus.FORBIDDEN,ErrorTypes.AUTH_ERROR.toString(),e.getMessage()));
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler({InternalAuthenticationServiceException.class})
+    public ResponseEntity<ApiResponse<String>> handleLoginExceptions(InternalAuthenticationServiceException e , HttpServletRequest request) {
+        e.printStackTrace();
+        log.info(e.toString());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ApiResponse<>(HttpStatus.UNPROCESSABLE_ENTITY,ErrorTypes.AUTH_ERROR.toString(),e.getMessage()));
+    }
+
 
     @org.springframework.web.bind.annotation.ExceptionHandler({Exception.class,RuntimeException.class})
     public ResponseEntity<ApiResponse<String>> handleOtherExceptions(Exception e , HttpServletRequest request) {

@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 public class TokenDTO {
     private String access_token;
     private String token_type;
+    private Long expires_in;
+    private Long exp;
+    private String refresh_token;
 }

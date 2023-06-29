@@ -1,6 +1,7 @@
 package com.ed.core.service.security;
 
 import com.ed.core.dto.security.AppUser;
+import com.ed.core.dto.security.TokenDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -20,10 +21,12 @@ import java.util.function.Function;
 public class JWTService {
 
 
+    public static final String TOKEN_TYPE = "bearer";
     @Value("${security.jwt.key}")
     private String secretKey;
     public static final String USER_DUMMY_PASSWORD = "P@ssw0rd";
-    public static final int TIMEOUT_PERIOD = 1000 * 60 * 60 * 24 * 7 ;
+    //public static final int TIMEOUT_PERIOD = 1000 * 60 * 60 * 24 * 7 ;
+    public static final int TIMEOUT_PERIOD = 1000 * 60;//* 60 * 24 * 7 ;
     public static final String MAIN_ROLE_CLAIM = "mainRole";
     public static final String ROLES_CLAIM = "roles";
     public static final String FUNCTIONS_CLAIM = "functions";
@@ -39,17 +42,8 @@ public class JWTService {
         return claimsResolver.apply(claims);
     }
 
-    private String generateToken(AppUser userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
-
-    public String generateToken(Map<String, Object> extraClaims, AppUser userDetails) {
-        return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TIMEOUT_PERIOD))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
+    public String generateToken(Map<String, Object> extraClaims, AppUser userDetails,long issuedAt, int timeoutPeriod) {
+        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername()).setIssuedAt(new Date(issuedAt)).setExpiration(new Date(issuedAt + timeoutPeriod)).signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -136,12 +130,12 @@ public class JWTService {
 
 
     public Map<String, Object> getExtraClaims(AppUser userInfoDTO) {
-        Map<String,Object> extraClaims = new HashMap<>();
-        extraClaims.put(MAIN_ROLE_CLAIM,userInfoDTO.getMainRole());
-        extraClaims.put(ROLES_CLAIM,userInfoDTO.getRoles());
-        extraClaims.put(FUNCTIONS_CLAIM,userInfoDTO.getPermissions());
-        extraClaims.put(EMAIL_CALIM,userInfoDTO.getEmail());
-        extraClaims.put(USERID_CLAIM,userInfoDTO.getId());
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put(MAIN_ROLE_CLAIM, userInfoDTO.getMainRole());
+        extraClaims.put(ROLES_CLAIM, userInfoDTO.getRoles());
+        extraClaims.put(FUNCTIONS_CLAIM, userInfoDTO.getPermissions());
+        extraClaims.put(EMAIL_CALIM, userInfoDTO.getEmail());
+        extraClaims.put(USERID_CLAIM, userInfoDTO.getId());
         return extraClaims;
     }
 
@@ -162,12 +156,16 @@ public class JWTService {
     }
 
 
-    public String userToToken(AppUser userDetails) {
-        Map<String,Object> extraClaims = getExtraClaims(userDetails);
-        return generateToken(
-                extraClaims,
-                userDetails
-        );
+    public TokenDTO userToToken(AppUser userDetails) {
+        Map<String, Object> extraClaims = getExtraClaims(userDetails);
+        TokenDTO token = new TokenDTO();
+        long time = System.currentTimeMillis();
+        token.setAccess_token(generateToken(extraClaims, userDetails,time, TIMEOUT_PERIOD));
+        token.setRefresh_token(generateToken(extraClaims, userDetails,time, TIMEOUT_PERIOD * 2));
+        token.setToken_type(TOKEN_TYPE);
+        token.setExpires_in(Integer.toUnsignedLong(TIMEOUT_PERIOD/1000));
+        token.setExp(time+TIMEOUT_PERIOD);
+        return token;
     }
 
 
