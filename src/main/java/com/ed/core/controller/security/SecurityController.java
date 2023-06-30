@@ -6,6 +6,7 @@ import com.ed.core.dto.security.TokenDTO;
 import com.ed.core.dto.security.UserCredentials;
 import com.ed.core.dto.base.ApiResponse;
 import com.ed.core.service.security.AuthService;
+import com.ed.core.service.security.JWTService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,8 @@ public class SecurityController extends AppController {
         return authService.login(userCredentials);
     }
 
-    @PostMapping(CONTROLLER_PATH+"/refreshToken")
+    @PostMapping(CONTROLLER_PATH+"/refresh-token")
     public TokenDTO refreshToken(@RequestBody RefreshTokenDTO userCredentials){
-        System.out.println(userCredentials.getRefreshToken());
         return authService.refreshToken(userCredentials.getRefreshToken());
     }
 

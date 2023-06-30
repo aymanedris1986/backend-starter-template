@@ -13,4 +13,5 @@ public class TokenDTO {
     private Long expires_in;
     private Long exp;
     private String refresh_token;
+    private Long refresh_token_exp;
 }

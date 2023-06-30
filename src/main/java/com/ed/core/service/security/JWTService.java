@@ -164,7 +164,8 @@ public class JWTService {
         token.setRefresh_token(generateToken(extraClaims, userDetails,time, TIMEOUT_PERIOD * 2));
         token.setToken_type(TOKEN_TYPE);
         token.setExpires_in(Integer.toUnsignedLong(TIMEOUT_PERIOD/1000));
-        token.setExp(time+TIMEOUT_PERIOD);
+        token.setExp((time+TIMEOUT_PERIOD)/1000);
+        token.setRefresh_token_exp( (time+(TIMEOUT_PERIOD*2)) /1000 );
         return token;
     }
 
