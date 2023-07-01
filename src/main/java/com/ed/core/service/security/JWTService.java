@@ -30,7 +30,7 @@ public class JWTService {
     public static final String MAIN_ROLE_CLAIM = "mainRole";
     public static final String ROLES_CLAIM = "roles";
     public static final String FUNCTIONS_CLAIM = "functions";
-    public static final String EMAIL_CALIM = "eamil";
+    public static final String EMAIL_CLAIM = "email";
     public static final String USERID_CLAIM = "userId";
 
     public String extractUsername(String token) {
@@ -134,7 +134,7 @@ public class JWTService {
         extraClaims.put(MAIN_ROLE_CLAIM, userInfoDTO.getMainRole());
         extraClaims.put(ROLES_CLAIM, userInfoDTO.getRoles());
         extraClaims.put(FUNCTIONS_CLAIM, userInfoDTO.getPermissions());
-        extraClaims.put(EMAIL_CALIM, userInfoDTO.getEmail());
+        extraClaims.put(EMAIL_CLAIM, userInfoDTO.getEmail());
         extraClaims.put(USERID_CLAIM, userInfoDTO.getId());
         return extraClaims;
     }
@@ -143,7 +143,7 @@ public class JWTService {
         List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
         AppUser userDetails = new AppUser(extractUsername(token), USER_DUMMY_PASSWORD, simpleGrantedAuthorities);
         String id = extractExtraClaim(token, JWTService.USERID_CLAIM, String.class);
-        String email = extractExtraClaim(token, JWTService.EMAIL_CALIM, String.class);
+        String email = extractExtraClaim(token, JWTService.EMAIL_CLAIM, String.class);
         String mainRole = extractExtraClaim(token, JWTService.MAIN_ROLE_CLAIM, String.class);
         List<String> rolesList = extractExtraClaim(token, JWTService.ROLES_CLAIM, List.class);
         List<String> permissionsList = extractExtraClaim(token, JWTService.FUNCTIONS_CLAIM, List.class);
