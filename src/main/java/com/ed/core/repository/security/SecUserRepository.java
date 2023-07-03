@@ -1,4 +1,4 @@
-package com.ed.core.repository;
+package com.ed.core.repository.security;
 
 import com.ed.core.entity.SecUser;
 import org.springframework.data.jpa.repository.JpaRepository;

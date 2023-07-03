@@ -2,7 +2,7 @@ package com.ed.core.service.security;
 
 import com.ed.core.dto.security.AppUser;
 import com.ed.core.dto.security.ClientUserInfoDTO;
-import com.ed.core.repository.SecUserRepository;
+import com.ed.core.repository.security.SecUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

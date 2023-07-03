@@ -2,8 +2,7 @@ package com.ed.core.service.security;
 
 import com.ed.core.dto.security.ClientUserInfoDTO;
 import com.ed.core.entity.SecUser;
-import com.ed.core.repository.SecUserRepository;
-import com.ed.core.service.base.AppService;
+import com.ed.core.repository.security.SecUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
 package com.ed.core.entity;
 
+import com.ed.core.entity.base.AuditEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "SEC_USERS")
-public class SecUser {
+public class SecUser implements AuditEntity {
     @Id
     @Size(max = 200)
     @Column(name = "USER_CODE", nullable = false, length = 200)
