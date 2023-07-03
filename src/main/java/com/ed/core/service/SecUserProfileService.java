@@ -30,7 +30,7 @@ public class SecUserProfileService extends AuditCrudService<SecUser,String, SecU
 
     @Override
     protected String getDtoId(SecUserProfileDto dto) {
-        return dto.getUserCode();
+        return dto.getId();
     }
 
     @Override
