@@ -49,4 +49,8 @@ public class TradePortfolio implements AuditEntity {
     @OneToMany(mappedBy = "portfolio")
     private Set<TradeLedger> tradeLedgers = new LinkedHashSet<>();
 
+    @Column(name = "number_of_seats")
+    private Long numberOfSeats;
+
+
 }

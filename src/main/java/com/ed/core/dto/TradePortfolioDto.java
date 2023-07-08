@@ -8,6 +8,7 @@ import lombok.ToString;
 import lombok.Value;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
@@ -31,4 +32,6 @@ public class TradePortfolioDto implements Serializable {
     Instant updatedAt;
     @Size(max = 100)
     String updatedBy;
+    private Long numberOfSeats;
+    private BigDecimal balance;
 }
