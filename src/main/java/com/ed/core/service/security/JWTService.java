@@ -24,9 +24,11 @@ public class JWTService {
     public static final String TOKEN_TYPE = "bearer";
     @Value("${security.jwt.key}")
     private String secretKey;
+    @Value("${security.jwt.expires-in}")
+    private double expiresIn;
     public static final String USER_DUMMY_PASSWORD = "P@ssw0rd";
     //public static final int TIMEOUT_PERIOD = 1000 * 60 * 60 * 24 * 7 ;
-    public static final int TIMEOUT_PERIOD = 1000 * 60;//* 60 * 24 * 7 ;
+    //public static final int TIMEOUT_PERIOD = 1000 * 60;//* 60 * 24 * 7 ;
     public static final String MAIN_ROLE_CLAIM = "mainRole";
     public static final String ROLES_CLAIM = "roles";
     public static final String FUNCTIONS_CLAIM = "functions";
@@ -160,13 +162,17 @@ public class JWTService {
         Map<String, Object> extraClaims = getExtraClaims(userDetails);
         TokenDTO token = new TokenDTO();
         long time = System.currentTimeMillis();
-        token.setAccess_token(generateToken(extraClaims, userDetails,time, TIMEOUT_PERIOD));
-        token.setRefresh_token(generateToken(extraClaims, userDetails,time, TIMEOUT_PERIOD * 2));
+        token.setAccess_token(generateToken(extraClaims, userDetails,time, getTimeoutPeriod() ));
+        token.setRefresh_token(generateToken(extraClaims, userDetails,time, getTimeoutPeriod() * 2));
         token.setToken_type(TOKEN_TYPE);
-        token.setExpires_in(Integer.toUnsignedLong(TIMEOUT_PERIOD/1000));
-        token.setExp((time+TIMEOUT_PERIOD)/1000);
-        token.setRefresh_token_exp( (time+(TIMEOUT_PERIOD*2)) /1000 );
+        token.setExpires_in(Integer.toUnsignedLong(getTimeoutPeriod()/1000));
+        token.setExp((time+ getTimeoutPeriod())/1000);
+        token.setRefresh_token_exp( (time+(getTimeoutPeriod()*2)) /1000 );
         return token;
+    }
+
+    private int getTimeoutPeriod() {
+        return (int) (1000 * 60 * (expiresIn/2));
     }
 
 
